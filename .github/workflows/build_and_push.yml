@@ -40,4 +40,5 @@ jobs:
     - name: Push Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: docker push $ECR_REGISTRY/my_squid:latest
+        ECR_REGISTRY_ALIAS: f3w7h7x2
+      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
