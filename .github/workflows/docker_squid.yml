@@ -1,4 +1,4 @@
-name: Build and Push Docker Image (Deprecated)
+name: Build and Push Docker Image to Docker (Deprecated)
 
 on:
   workflow_dispatch:  # This event allows manual triggering

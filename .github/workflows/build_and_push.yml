@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image to AWS
 
 on:
   workflow_dispatch:  # This event allows manual triggering
@@ -6,6 +6,8 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REGISTRY_ALIAS: f3w7h7x2
+  
+# https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-amazon-elastic-container-service
 
 jobs:
   build:
