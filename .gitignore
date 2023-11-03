@@ -1,3 +1,4 @@
 aws.sh
 build.sh
 runImage.sh
+push.sh
