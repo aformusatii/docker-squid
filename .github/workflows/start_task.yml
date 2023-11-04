@@ -16,20 +16,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-      - name: Install dependencies
-        run: npm install @aws-sdk/client-ec2 @aws-sdk/client-ecs @aws-sdk/credential-providers
+    - name: Install dependencies
+      run: npm install @aws-sdk/client-ec2 @aws-sdk/client-ecs @aws-sdk/credential-providers
 
-      - name: Start Task Definition on ECS Cluster
-          env:
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_REGION: ${{ env.AWS_REGION }}
-          run: node aws/start-task-definition.js
+    - name: Start Task Definition on ECS Cluster
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+        run: node aws/start-task-definition.js
