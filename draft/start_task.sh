@@ -2,7 +2,7 @@
 # aws ec2 describe-vpcs --region us-east-1 --query "Vpcs[0].VpcId" --output text
 # $(aws ec2 describe-subnets --region us-east-1 --query "Subnets[?VpcId=='vpc-c8c88faf'].SubnetId" --output text)
 cluster_name=TestClusterV1
-task_family=SQUID_HTTP_PROXY
+task_family=SQUID_HTTP_PROXY_V2
 security_group="sg-0b1d5a16a78fb33e8"
 
 vpc_id=$(aws ec2 describe-vpcs --region us-east-1 --query "Vpcs[0].VpcId" --output text)
