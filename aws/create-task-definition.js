@@ -50,6 +50,20 @@ const taskDefinitionParams = {
     memory: "1024"
 };
 
+const addEnvironmentVar = function(key, value) {
+    if ( (typeof value === 'string') && (value.trim() !== '') ) {
+        taskDefinitionParams.containerDefinitions[0].environment.push({
+            name: key,
+            value: value
+        });
+    }    
+}
+
+addEnvironmentVar("SQUID_USERNAME", process.env.SQUID_USERNAME);
+addEnvironmentVar("SQUID_PASSWORD", process.env.SQUID_PASSWORD);
+addEnvironmentVar("CLOUDFLARE_DNS", process.env.CLOUDFLARE_DNS);
+addEnvironmentVar("CLOUDFLARE_API_KEY", process.env.CLOUDFLARE_API_KEY);
+
 ecs.registerTaskDefinition(taskDefinitionParams, (err, data) => {
   if (err) {
     console.error('Error creating task definition:', err);
