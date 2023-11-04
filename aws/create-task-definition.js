@@ -1,13 +1,11 @@
-const AWS = require('aws-sdk');
+import {ECS} from "@aws-sdk/client-ecs";
+import {fromEnv} from "@aws-sdk/credential-providers";
 
-// Configure AWS SDK with credentials and region
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+const ecs = new ECS({
+    region: 'us-east-1',
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/functions/_aws_sdk_credential_providers.fromEnv.html
+    credentials: fromEnv()
 });
-
-const ecs = new AWS.ECS();
 
 const taskDefinitionParams = {
     family: "SQUID_HTTP_PROXY_V2",
@@ -64,11 +62,13 @@ addEnvironmentVar("SQUID_PASSWORD", process.env.SQUID_PASSWORD);
 addEnvironmentVar("CLOUDFLARE_DNS", process.env.CLOUDFLARE_DNS);
 addEnvironmentVar("CLOUDFLARE_API_KEY", process.env.CLOUDFLARE_API_KEY);
 
-ecs.registerTaskDefinition(taskDefinitionParams, (err, data) => {
-  if (err) {
-    console.error('Error creating task definition:', err);
-    process.exit(1);
-  } else {
-    console.log('Task definition created:', data.taskDefinition.family);
-  }
-});
+const run = async function() {
+    try {
+        const result = await ecs.registerTaskDefinition(taskDefinitionParams);
+        console.log('Task definition created:', result.taskDefinition.family);
+    } catch (exception) {
+        console.error('Error creating task definition:', exception);
+    }
+}
+
+run();

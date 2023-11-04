@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "aws-sdk": "^2.1488.0"
-  }
+    "@aws-sdk/client-ec2": "^3.441.0",
+    "@aws-sdk/client-ecs": "^3.441.0",
+    "@aws-sdk/credential-providers": "^3.441.0"
+  },
+  "type": "module"
 }

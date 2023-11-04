@@ -2,6 +2,7 @@ aws.sh
 build.sh
 runImage.sh
 push.sh
+push.bat
 *-definition.json
 node_modules/
 package-lock.json

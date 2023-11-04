@@ -20,7 +20,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install aws-sdk
+        run: npm install @aws-sdk/client-ecs @aws-sdk/credential-providers
 
       - name: Create Task Definition
         env:
