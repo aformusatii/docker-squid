@@ -29,11 +29,8 @@ const taskRunParams = {
 };
 
 const run = async function() {
-  const describeResult = await ec2.describeSubnets({});
-  //console.log('result2', result2.Subnets.map(obj => obj.SubnetId).join(','));
-
-  taskRunParams.networkConfiguration.awsvpcConfiguration.subnets = describeResult.Subnets.map(obj => obj.SubnetId)
-  //console.log('taskRunParams', taskRunParams.networkConfiguration.awsvpcConfiguration.subnets);
+  const describeSubnetsResult = await ec2.describeSubnets({});
+  taskRunParams.networkConfiguration.awsvpcConfiguration.subnets = describeSubnetsResult.Subnets.map(obj => obj.SubnetId)
 
   const runTaskResult = await ecs.runTask(taskRunParams);
   console.log('runTaskResult', runTaskResult);
