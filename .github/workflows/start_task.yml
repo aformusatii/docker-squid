@@ -16,30 +16,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Run Task Definition on ECS Cluster
-      run: |
-        vpc_id=$(aws ec2 describe-vpcs --region us-east-1 --query "Vpcs[0].VpcId" --output text)
-        subnet_ids=$(aws ec2 describe-subnets --region us-east-1 --query "Subnets[?VpcId=='$vpc_id'].SubnetId" --output text)
-        
-        subnet_ids=$(echo $subnet_ids | sed 's/ /","/g')
-        subnet_ids="\"$subnet_ids\""
-        
-        network_config="awsvpcConfiguration={subnets=[$subnet_ids],securityGroups=[\"$AWS_SEC_GROUP\"],assignPublicIp=\"ENABLED\"}"
-        
-        echo $vpc_id
-        echo $network_config
-        
-        aws ecs run-task \
-            --cluster "$AWS_CLUSTER_NAME" \
-            --task-definition "$AWS_TASK_DEF" \
-            --launch-type FARGATE \
-            --count 1 \
-            --network-configuration "$network_config" \
-            --output text
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install @aws-sdk/client-ec2 @aws-sdk/client-ecs @aws-sdk/credential-providers
+
+      - name: Start Task Definition on ECS Cluster
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_REGION: ${{ env.AWS_REGION }}
+          run: node aws/start-task-definition.js

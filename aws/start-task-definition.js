@@ -1,14 +1,17 @@
 import {EC2} from "@aws-sdk/client-ec2";
 import {ECS} from "@aws-sdk/client-ecs";
+import {fromEnv} from "@aws-sdk/credential-providers";
 
 // Create an EC2 client
 const ec2 = new EC2({
   // Replace with your desired AWS region
-  region: 'us-east-1'
+  region: 'us-east-1',
+  credentials: fromEnv()
 });
 
 const ecs = new ECS({
-  region: 'us-east-1'
+  region: 'us-east-1',
+  credentials: fromEnv()
 });
 
 const taskRunParams = {
@@ -20,11 +23,12 @@ const taskRunParams = {
     awsvpcConfiguration: {
       subnets: [],
       securityGroups: ['sg-0b1d5a16a78fb33e8'],
+      assignPublicIp: 'ENABLED'
     },
   },
 };
 
-const test = async function() {
+const run = async function() {
   const describeResult = await ec2.describeSubnets({});
   //console.log('result2', result2.Subnets.map(obj => obj.SubnetId).join(','));
 
@@ -35,5 +39,4 @@ const test = async function() {
   console.log('runTaskResult', runTaskResult);
 }
 
-test();
-
+run();
