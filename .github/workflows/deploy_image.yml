@@ -1,0 +1,39 @@
+name: Deploy Image to AWS ECS
+
+on:
+  workflow_dispatch:  # This event allows manual triggering
+  
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY_ALIAS: f3w7h7x2
+  
+# https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-amazon-elastic-container-service
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        registry-type: public
+
+    - name: Download AWS Task Definition
+      run: |
+        aws ecs describe-task-definition --task-definition SQUID_HTTP_PROXY --query taskDefinition > task-definition.json
+        
+    - name: Deploy AWS ECS Task Definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        cluster: TestClusterV1
+        wait-for-service-stability: true
