@@ -6,7 +6,7 @@ on:
 env:
   AWS_REGION: us-east-1
   AWS_CLUSTER_NAME: TestClusterV1
-  AWS_TASK_DEF: SQUID_HTTP_PROXY
+  AWS_TASK_DEF: SQUID_HTTP_PROXY_V2
   AWS_SEC_GROUP: sg-0b1d5a16a78fb33e8
   
 # https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-amazon-elastic-container-service

@@ -3,3 +3,5 @@ build.sh
 runImage.sh
 push.sh
 *-definition.json
+node_modules/
+package-lock.json
