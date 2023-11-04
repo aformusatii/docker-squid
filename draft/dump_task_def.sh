@@ -1,1 +1,0 @@
-aws ecs describe-task-definition --task-definition SQUID_HTTP_PROXY --query taskDefinition > task-definition.json

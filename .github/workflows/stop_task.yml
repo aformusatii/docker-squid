@@ -1,11 +1,12 @@
-name: Deploy Image to AWS ECS
+name: Stop Task Definition on AWS ECS
 
 on:
   workflow_dispatch:  # This event allows manual triggering
   
 env:
   AWS_REGION: us-east-1
-  ECR_REGISTRY_ALIAS: f3w7h7x2
+  AWS_CLUSTER_NAME: TestClusterV1
+  AWS_TASK_DEF: SQUID_HTTP_PROXY
   
 # https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-amazon-elastic-container-service
 
@@ -23,11 +24,10 @@ jobs:
 
     - name: Download AWS Task Definition
       run: |
-        aws ecs describe-task-definition --task-definition SQUID_HTTP_PROXY --query taskDefinition > task-definition.json
+        cluster_name=TestClusterV1
+        task_family=SQUID_HTTP_PROXY
         
-    - name: Deploy AWS ECS Task Definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: task-definition.json
-        cluster: TestClusterV11
-        wait-for-service-stability: true
+        first_task_arn=$(aws ecs list-tasks --cluster "$AWS_CLUSTER_NAME" --family "$AWS_TASK_DEF" --query "taskArns[0]" --output text)
+        echo $first_task_arn
+        
+        aws ecs stop-task --cluster "$AWS_CLUSTER_NAME" --task "$first_task_arn" --output text
