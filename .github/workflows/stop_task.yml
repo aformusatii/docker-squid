@@ -22,11 +22,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Download AWS Task Definition
+    - name: Stop Task Definition
       run: |
-        cluster_name=TestClusterV1
-        task_family=SQUID_HTTP_PROXY
-        
         first_task_arn=$(aws ecs list-tasks --cluster "$AWS_CLUSTER_NAME" --family "$AWS_TASK_DEF" --query "taskArns[0]" --output text)
         echo $first_task_arn
         

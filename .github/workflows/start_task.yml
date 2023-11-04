@@ -25,10 +25,6 @@ jobs:
 
     - name: Run Task Definition on ECS Cluster
       run: |
-        cluster_name=TestClusterV1
-        task_family=SQUID_HTTP_PROXY
-        security_group="sg-0b1d5a16a78fb33e8"
-        
         vpc_id=$(aws ec2 describe-vpcs --region us-east-1 --query "Vpcs[0].VpcId" --output text)
         subnet_ids=$(aws ec2 describe-subnets --region us-east-1 --query "Subnets[?VpcId=='$vpc_id'].SubnetId" --output text)
         
