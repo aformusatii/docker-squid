@@ -28,4 +28,6 @@ else
     curl -k -d "{\"apiKey\":\"${CLOUDFLARE_API_KEY}\", \"host\":\"${CLOUDFLARE_DNS}\"}" -H "Content-Type: application/json" -X POST https://new.htmlsketcher.com/update-ip
 fi
 
+/root/no-ip-updater.sh
+
 squid -NYCd 5 -f /etc/squid/squid.conf

@@ -11,6 +11,7 @@ COPY squid/squid.with.auth.conf /etc/squid/squid.with.auth.conf
 COPY squid/squid.without.auth.conf /etc/squid/squid.without.auth.conf
 
 ADD squid/run.sh /root/run.sh
+ADD squid/no-ip-updater.sh /root/no-ip-updater.sh
 
 EXPOSE 3128
 #
