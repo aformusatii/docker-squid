@@ -33,4 +33,7 @@ jobs:
           SQUID_PASSWORD: ${{ secrets.SQUID_PASSWORD }}
           CLOUDFLARE_DNS: ${{ secrets.CLOUDFLARE_DNS }}
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          NO_IP_USERNAME: ${{ secrets.NO_IP_USERNAME }}
+          NO_IP_PASSWORD: ${{ secrets.NO_IP_PASSWORD }}
+          NO_IP_HOSTNAME: ${{ secrets.NO_IP_HOSTNAME }}
         run: node aws/create-task-definition.js

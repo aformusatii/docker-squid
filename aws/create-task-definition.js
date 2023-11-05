@@ -75,6 +75,10 @@ addEnvironmentVar("SQUID_PASSWORD", process.env.SQUID_PASSWORD);
 addEnvironmentVar("CLOUDFLARE_DNS", process.env.CLOUDFLARE_DNS);
 addEnvironmentVar("CLOUDFLARE_API_KEY", process.env.CLOUDFLARE_API_KEY);
 
+addEnvironmentVar("NO_IP_USERNAME", process.env.NO_IP_USERNAME);
+addEnvironmentVar("NO_IP_PASSWORD", process.env.NO_IP_PASSWORD);
+addEnvironmentVar("NO_IP_HOSTNAME", process.env.NO_IP_HOSTNAME);
+
 const run = async function() {
     try {
         const result = await ecs.registerTaskDefinition(taskDefinitionParams);
