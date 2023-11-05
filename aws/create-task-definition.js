@@ -35,7 +35,16 @@ const taskDefinitionParams = {
                 }
             ],
             essential: true,
-            environment: []
+            environment: [],
+            logConfiguration: {
+                logDriver: "awslogs",
+                options: {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/",
+                    "awslogs-region": AWS_REGION,
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
         }
     ],
     taskRoleArn: "arn:aws:iam::278447177517:role/ecsTaskExecutionRole",
