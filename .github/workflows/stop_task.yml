@@ -32,5 +32,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           AWS_CLUSTER_NAME: ${{ env.AWS_CLUSTER_NAME }}
-          AWS_TASK_DEFINITION: ${{ env.AWS_TASK_DEF }}
+          AWS_TASK_DEFINITION: ${{ env.AWS_TASK_DEFINITION }}
         run: node aws/stop-task-definition.js
