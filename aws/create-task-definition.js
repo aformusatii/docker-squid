@@ -1,14 +1,18 @@
 import {ECS} from "@aws-sdk/client-ecs";
 import {fromEnv} from "@aws-sdk/credential-providers";
 
+const AWS_REGION = process.env.AWS_REGION;
+const AWS_TASK_DEFINITION = process.env.AWS_TASK_DEFINITION;
+const CREDENTIALS = (process.env.AWS_ACCESS_KEY_ID) ? fromEnv() : undefined;
+
 const ecs = new ECS({
-    region: 'us-east-1',
+    region: AWS_REGION,
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/functions/_aws_sdk_credential_providers.fromEnv.html
-    credentials: fromEnv()
+    credentials: CREDENTIALS
 });
 
 const taskDefinitionParams = {
-    family: "SQUID_HTTP_PROXY_V2",
+    family: AWS_TASK_DEFINITION,
     containerDefinitions: [
         {
             name: "my_squid",
