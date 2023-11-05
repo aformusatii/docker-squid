@@ -6,7 +6,7 @@ on:
 env:
   AWS_REGION: us-east-1
   AWS_CLUSTER_NAME: TestClusterV1
-  AWS_TASK_DEF: SQUID_HTTP_PROXY_V2
+  AWS_TASK_DEFINITION: SQUID_HTTP_PROXY_V2
   
 # https://docs.github.com/en/actions/deployment/deploying-to-your-cloud-provider/deploying-to-amazon-elastic-container-service
 
@@ -15,16 +15,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Stop Task Definition
-      run: |
-        first_task_arn=$(aws ecs list-tasks --cluster "$AWS_CLUSTER_NAME" --family "$AWS_TASK_DEF" --query "taskArns[0]" --output text)
-        echo $first_task_arn
-        
-        aws ecs stop-task --cluster "$AWS_CLUSTER_NAME" --task "$first_task_arn" --output text
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install @aws-sdk/client-ecs @aws-sdk/credential-providers
+
+      - name: Stop Task Definition on ECS Cluster
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+          AWS_CLUSTER_NAME: ${{ env.AWS_CLUSTER_NAME }}
+          AWS_TASK_DEFINITION: ${{ env.AWS_TASK_DEF }}
+        run: node aws/stop-task-definition.js
