@@ -44,3 +44,10 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+	  
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+        tag_name: 1.0.0
