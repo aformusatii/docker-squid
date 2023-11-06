@@ -9,20 +9,17 @@ if [ -n "$NO_IP_USERNAME" ] && [ -n "$NO_IP_PASSWORD" ] && [ -n "$NO_IP_HOSTNAME
     # No-IP Update URL
     UPDATE_URL="https://dynupdate.no-ip.com/nic/update"
 
-    # Log file for recording updates
-    LOG_FILE="/var/log/noip_update.log"
-
     # Function to update the IP address using No-IP service
     update_noip() {
         while true; do
             IP=$(curl -s https://ipv4.icanhazip.com)
             if [ -n "$IP" ]; then
                 RESULT=$(curl -s -u "$USERNAME:$PASSWORD" -X GET "$UPDATE_URL?hostname=$HOSTNAME&myip=$IP")
-                echo "$(date +'%Y-%m-%d %H:%M:%S') - $RESULT"
+                echo "$(date +'%Y-%m-%d %H:%M:%S') - Updated DNS: $RESULT"
             else
                 echo "$(date +'%Y-%m-%d %H:%M:%S') - Failed to fetch local IP address"
             fi
-            sleep 3600  # Sleep for 1 hour (adjust as needed)
+            sleep 1800  # Run each 30 minutes
         done
     }
 
