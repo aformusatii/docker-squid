@@ -47,8 +47,4 @@ jobs:
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          external_url: https://gallery.ecr.aws/f3w7h7x2/my_squid
-        tag_name: 1.0.0
 
