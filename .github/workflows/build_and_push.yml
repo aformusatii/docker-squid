@@ -51,5 +51,8 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
+		body: |
+			Image is uploaded to [public repo](https://gallery.ecr.aws/f3w7h7x2/my_squid) on AWS ECR.
+
         tag_name: 1.0.0
 
