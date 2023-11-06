@@ -49,6 +49,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+          external_url: https://gallery.ecr.aws/f3w7h7x2/my_squid
         tag_name: 1.0.0
 
