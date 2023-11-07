@@ -43,17 +43,19 @@ jobs:
         scheme: semver
         increment: patch
       
-    - name: Tag Docker Image
+    - name: Tag Latest & Push Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        echo "$ECR_REGISTRY=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS"
         docker tag my_squid $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+        docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
 
-    - name: Push Docker Image
+    - name: Tag Version & Push Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+      run: |
+        docker tag my_squid $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}
+        docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
