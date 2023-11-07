@@ -35,23 +35,30 @@ jobs:
 
     - name: Build Docker Image
       run: docker build -t my_squid .
+
+    - name: Get next version
+      uses: reecetech/version-increment@2023.10.2
+      id: version
+      with:
+        scheme: semver
+        increment: patch
       
     - name: Tag Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         echo "$ECR_REGISTRY=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS"
-        docker tag my_squid:latest $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+        docker tag my_squid:${{ steps.version.outputs.version }}" $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}"
 
     - name: Push Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
+      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}"
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
         body: |
           Image is uploaded to [public repo](https://gallery.ecr.aws/f3w7h7x2/my_squid) on AWS ECR.
-        tag_name: 1.0.0
+        tag_name: ${{ steps.version.outputs.version }}"
 
