@@ -88,7 +88,7 @@ To get started, follow these steps:
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/your-squid-proxy-repo.git
+   git clone https://github.com/aformusatii/docker-squid.git
    ```
 
 2. Customize the Dockerfile and GitHub Actions workflows to meet your requirements.
