@@ -48,12 +48,12 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         echo "$ECR_REGISTRY=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS"
-        docker tag my_squid $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}
+        docker tag my_squid $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
 
     - name: Push Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}
+      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:latest
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
