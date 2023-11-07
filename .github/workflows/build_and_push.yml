@@ -48,17 +48,17 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         echo "$ECR_REGISTRY=$ECR_REGISTRY/$ECR_REGISTRY_ALIAS"
-        docker tag my_squid:${{ steps.version.outputs.version }}" $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}"
+        docker tag my_squid:${{ steps.version.outputs.version }} $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}
 
     - name: Push Docker Image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}"
+      run: docker push $ECR_REGISTRY/$ECR_REGISTRY_ALIAS/my_squid:${{ steps.version.outputs.version }}
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
         body: |
           Image is uploaded to [public repo](https://gallery.ecr.aws/f3w7h7x2/my_squid) on AWS ECR.
-        tag_name: ${{ steps.version.outputs.version }}"
+        tag_name: ${{ steps.version.outputs.version }}
 
